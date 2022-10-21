@@ -51,11 +51,11 @@
             },
             {
                 "command": "ritmica.run",
-                "title": "Ritmica: run music"
+                "title": "Ritmica: Run music"
             },
             {
                 "command": "ritmica.stop",
-                "title": "Ritmica: stop music"
+                "title": "Ritmica: Stop music"
             }
         ]
     },
