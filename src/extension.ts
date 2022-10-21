@@ -4,7 +4,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import debounce = require('lodash.debounce');
-import {toInteger} from 'lodash';
 
 let listener: EditorListener;
 let start: number;
@@ -42,6 +41,12 @@ function stopBackground() {
     isSetTimmeoutRunning = false;
 }
 
+function stopMusic() {
+    music_started = false;
+    mpvPlayer.stop();
+    vscode.window.showInformationMessage('Music is stoped');
+}
+
 export function activate(context: vscode.ExtensionContext) {
 
     log('Initializing "ritmica" extension');
@@ -68,6 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (isActive) {
             context.globalState.update('ritmica', false);
             isActive = false;
+            stopMusic();
             stopBackground();
             vscode.window.showInformationMessage('Ritmica extension disabled');
         } else {
@@ -82,190 +88,19 @@ export function activate(context: vscode.ExtensionContext) {
             mpvPlayer.loadStream(input);
             start = Date.now();
             startBackground();
-            vscode.window.showWarningMessage('Music is started');
+            vscode.window.showInformationMessage('Music is started');
             log("music is started");
         }
     });
 
     vscode.commands.registerCommand('ritmica.stop', () => {
         if (isActive) {
-            music_started = false;
-            mpvPlayer.stop();
-            vscode.window.showWarningMessage('Music is stoped');
+            stopMusic();
+            // music_started = false;
+            // mpvPlayer.stop();
+            // vscode.window.showInformationMessage('Music is stoped');
         }
     });
-
-    vscode.commands.registerCommand('ritmica.volumeUp', () => {
-        let newVol = null;
-        switch (process.platform) {
-            case 'darwin':
-                config.macVol += 1;
-
-                if (config.macVol > 10) {
-                    vscode.window.showWarningMessage('Ritmica already at maximum volume');
-                    config.macVol = 10;
-                }
-
-                newVol = config.macVol;
-                context.globalState.update('mac_volume', newVol);
-                break;
-
-            case 'win32':
-                config.winVol += 10;
-
-                if (config.winVol > 100) {
-                    vscode.window.showWarningMessage('Ritmica already at maximum volume');
-                    config.winVol = 100;
-                }
-
-                newVol = config.winVol;
-                context.globalState.update('win_volume', newVol);
-                break;
-
-            case 'linux':
-                config.linuxVol += 1;
-
-                if (config.linuxVol > 10) {
-                    vscode.window.showWarningMessage('Ritmica already at maximum volume');
-                    config.linuxVol = 10;
-                }
-
-                newVol = config.linuxVol;
-                context.globalState.update('linux_volume', newVol);
-                break;
-
-            default:
-                newVol = 0;
-                break;
-        }
-
-        vscode.window.showInformationMessage('Ritmica volume raised: ' + newVol);
-    });
-    vscode.commands.registerCommand('ritmica.volumeDown', () => {
-        let newVol = null;
-
-        switch (process.platform) {
-            case 'darwin':
-                config.macVol -= 1;
-
-                if (config.macVol < 1) {
-                    vscode.window.showWarningMessage('Ritmica already at minimum volume');
-                    config.macVol = 1;
-                }
-
-                newVol = config.macVol;
-                context.globalState.update('mac_volume', newVol);
-                break;
-
-            case 'win32':
-                config.winVol -= 10;
-
-                if (config.winVol < 10) {
-                    vscode.window.showWarningMessage('Ritmica already at minimum volume');
-                    config.winVol = 10;
-                }
-
-                newVol = config.winVol;
-                context.globalState.update('win_volume', newVol);
-                break;
-
-            case 'linux':
-                config.linuxVol -= 1;
-
-                if (config.linuxVol < 1) {
-                    vscode.window.showWarningMessage('Ritmica already at minimum volume');
-                    config.linuxVol = 1;
-                }
-
-                newVol = config.linuxVol;
-                context.globalState.update('linux_volume', newVol);
-                break;
-
-            default:
-                newVol = 0;
-                break;
-        }
-
-        vscode.window.showInformationMessage('Ritmica volume lowered: ' + newVol);
-    });
-
-    vscode.commands.registerCommand('ritmica.setVolume', async () => {
-        let input = await vscode.window.showInputBox();
-        let newVol = toInteger(input);
-
-        switch (process.platform) {
-            case 'darwin':
-                if (newVol > 10) {
-                    vscode.window.showInformationMessage("Volume increased to maximum");
-                    config.macVol = 10;
-                } else if (newVol < 1) {
-                    vscode.window.showInformationMessage("Volume decreased to minimum");
-                    config.macVol = 1;
-                } else {
-                    if (config.macVol < newVol) {
-                        vscode.window.showInformationMessage("Volume increased to " + newVol);
-                    } else if (config.macVol > newVol) {
-                        vscode.window.showInformationMessage("Volume decreased to " + newVol);
-                    } else {
-                        vscode.window.showWarningMessage("Volume already at " + newVol);
-                    }
-
-                    config.macVol = newVol;
-                }
-
-                context.globalState.update('mac_volume', newVol);
-                break;
-
-            case 'win32':
-                if (newVol > 100) {
-                    vscode.window.showInformationMessage("Volume increased to maximum");
-                    config.winVol = 100;
-                } else if (newVol < 10) {
-                    vscode.window.showInformationMessage("Volume decreased to minimum");
-                    config.winVol = 10;
-                } else {
-                    if (config.winVol < newVol) {
-                        vscode.window.showInformationMessage("Volume increased to " + newVol);
-                    } else if (config.winVol > newVol) {
-                        vscode.window.showInformationMessage("Volume decreased to " + newVol);
-                    } else {
-                        vscode.window.showWarningMessage("Volume already at " + newVol);
-                    }
-
-                    config.winVol = newVol;
-                }
-
-                context.globalState.update('win_volume', newVol);
-                break;
-
-            case 'linux':
-                if (newVol > 10) {
-                    vscode.window.showInformationMessage("Volume increased to maximum");
-                    config.linuxVol = 10;
-                } else if (newVol < 1) {
-                    vscode.window.showInformationMessage("Volume decreased to minimum");
-                    config.linuxVol = 1;
-                } else {
-                    if (config.linuxVol < newVol) {
-                        vscode.window.showInformationMessage("Volume increased to " + newVol);
-                    } else if (config.linuxVol > newVol) {
-                        vscode.window.showInformationMessage("Volume decreased to " + newVol);
-                    } else {
-                        vscode.window.showWarningMessage("Volume already at " + newVol);
-                    }
-
-                    config.linuxVol = newVol;
-                }
-
-                context.globalState.update('linux_volume', newVol);
-                break;
-
-            default:
-                newVol = 0;
-                break;
-        }
-    });
-
 
     // Add to a list of disposables which are disposed when this extension is deactivated.
     context.subscriptions.push(listener);
