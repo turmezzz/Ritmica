@@ -3,18 +3,10 @@
 'use strict';
 import * as vscode from 'vscode';
 import * as path from 'path';
-import player, {PlayerConfig} from './player';
 import debounce = require('lodash.debounce');
 import {toInteger} from 'lodash';
 
 let listener: EditorListener;
-let isActive: boolean;
-let isNotArrowKey: boolean;
-let config: PlayerConfig = {
-    macVol: 1,
-    winVol: 100,
-    linuxVol: 100
-};
 let start: number;
 let mpv = require('node-mpv');
 let mpvPlayer = new mpv({ "audio_only": true, "auto_restart": true });
