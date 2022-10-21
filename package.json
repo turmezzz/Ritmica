@@ -1,0 +1,90 @@
+{
+    "name": "ritmica",
+    "publisher": "turmezzz",
+    "displayName": "Ritmica",
+    "description": "",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.40.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/turmezzz/ritmica"
+    },
+    "keywords": [
+        "sound",
+        "keyboard",
+        "ritmica",
+        "productivity"
+    ],
+    "icon": "icon.png",
+    "license": "MIT",
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "ritmica.enable",
+                "title": "Ritmica: Enable"
+            },
+            {
+                "command": "ritmica.disable",
+                "title": "Ritmica: Disable"
+            },
+            {
+                "command": "ritmica.volumeUp",
+                "title": "Ritmica: Volume Up"
+            },
+            {
+                "command": "ritmica.volumeDown",
+                "title": "Ritmica: Volume Down"
+            },
+            {
+                "command": "ritmica.setVolume",
+                "title": "Ritmica: Set Volume",
+                "args": "newVol"
+            },
+            {
+                "command": "ritmica.run",
+                "title": "Ritmica: run music"
+            },
+            {
+                "command": "ritmica.stop",
+                "title": "Ritmica: stop music"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run -S esbuild-base -- --minify",
+        "esbuild-base": "esbuild ./src/extension.js --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+        "esbuild": "npm run -S esbuild-base -- --sourcemap",
+        "esbuild-watch": "npm run -S esbuild-base -- --sourcemap --watch",
+        "test-compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/glob": "^7.1.1",
+        "@types/lodash.debounce": "^4.0.6",
+        "@types/mocha": "^5.2.7",
+        "@types/node": "^12.11.7",
+        "@types/vscode": "^1.40.0",
+        "esbuild": "^0.14.23",
+        "glob": "^7.1.5",
+        "lodash": "^4.17.21",
+        "mocha": "^6.2.2",
+        "tslint": "^5.20.0",
+        "typescript": "^3.6.4",
+        "vscode-test": "^1.2.2"
+    },
+    "dependencies": {
+        "lodash": "^4.17.21",
+        "lodash.debounce": "^4.0.8",
+        "node-mpv": "^1.5.0",
+        "play-sound": "^1.1.3"
+    }
+}
