@@ -17,11 +17,18 @@ let config: PlayerConfig = {
 };
 let start: number;
 let mpv = require('node-mpv');
-let mpvPlayer = new mpv();
+let mpvPlayer = new mpv({ "audio_only": true, "auto_restart": true });
 let music_started = false;
 
 const stat_period_duration = 5 * 1000;
-const weighted_coef = 0.4;
+const weighted_coef = 0.8;
+
+const enable_log = false;
+function log(msg: String) {
+    if (enable_log) {
+        console.log(msg);
+    }
+}
 
 //The variable below will just make it so the user cannot run the setInterval method more than once at a time
 var isSetTimmeoutRunning = false;
@@ -44,7 +51,8 @@ function stopBackground() {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Initializing "ritmica" extension');
+
+    log('Initializing "ritmica" extension');
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('ritmica', true);
@@ -83,7 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
             start = Date.now();
             startBackground();
             vscode.window.showWarningMessage('Music is started');
-            console.log("music is started");
+            log("music is started");
         }
     });
 
@@ -301,13 +309,13 @@ export class EditorListener {
 
     map_temp_to_interval(temp: number) {
         if (temp < 10) {
-            return 0.75;
+            return 0.8;
         } else if (temp < 20) {
             return 1;
-        } else if (temp < 25) {
-            return 1.25;
+        } else if (temp < 50) {
+            return 1.2;
         } else {
-            return 1.5;
+            return 1.4;
         }
     }
 
@@ -317,10 +325,10 @@ export class EditorListener {
 
         if (new_period != this._current_period) {
             let scale = this.map_temp_to_interval(this._average_temp);
-            console.log("Temp " + this._average_temp);
-            console.log("Temp cur " + this._current_temp);
-            console.log("Scale" + scale);
-            console.log("    ");
+            log("Temp " + this._average_temp);
+            log("Temp cur " + this._current_temp);
+            log("Scale" + scale);
+            log("\n");
             mpvPlayer.speed(scale);
             this._current_period = new_period;
             this._average_temp = Math.round(weighted_coef * this._average_temp + (1 - weighted_coef) * this._current_temp);
