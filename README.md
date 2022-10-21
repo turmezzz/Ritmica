@@ -4,37 +4,27 @@ This Visual Studio Code extension increase concentration during coding. Boost yo
 
 ## Requirements
 
+![Ritmica icon](icon.png)
+
 ### Linux
 
-On Linux, you will need to have mplayer installed and on your PATH to get this extension working.
+**Linux based**
 
 ```npm install ```
 
 ```sudo apt-get install mpv youtube-dl```
 
-**Debian based**
+### Mac
 
 ```npm install ```
 
-```sudo apt-get install mpv youtube-dl```
-
-**Red Hat based**
-
-No special requirements.
-
-**Arch based**
-
-No special requirements.
-
-### Windows and Mac
-
-No special requirements.
+```brew  install mpv youtube-dl```
 
 ## Installation
 
-Run `code --install-extension danjiii.ritmica`
+Run `code --install-extension ttda.ritmica`
 
-or search [Ritmica](https://marketplace.visualstudio.com/items?itemName=danjiii.ritmica) in Extensions Marketplace.
+or search [Ritmica](https://marketplace.visualstudio.com/items?itemName=ttda.ritmica) in Extensions Marketplace.
 
 ## How to use
 
@@ -65,15 +55,6 @@ You can stop music by executing these commands in the Command Palette (Cmd+Shift
 
 - `Ritmica: Stop music`
 
-## Known Issues & Bugs
-
-The extension is in a very early stage. Please report any issues / bugs you find.
-
-## Contributing
-
-Any pull request is welcome.
-
 ## Credits
 
-For Windows, this extension uses the `sounder` light-weight player:
-<https://www.elifulkerson.com/projects/commandline-wav-player.php>
+[Matias Godoy](https://github.com/mattogodoy)
