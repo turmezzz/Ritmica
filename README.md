@@ -1,6 +1,6 @@
 # Ritmica
 
-This Visual Studio Code extension increase concentration during coding. Boost your productivity with Ritmika. The IDE plugin changes the speed of the music according to your typing speed. This helps you maintain concentration and get into flow state. Try it and become a code hero with Ritmica!
+This Visual Studio Code extension increase concentration during coding. Boost your productivity with Ritmica. The IDE plugin changes the speed of the music according to your typing speed. This helps you maintain concentration and get into flow state. Try it and become a code hero with Ritmica!
 
 ## Requirements
 
