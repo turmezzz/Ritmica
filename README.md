@@ -35,16 +35,6 @@ Ritmica will start immediately when Visual Studio Code is started. However, you 
 - `Ritmica: Enable`
 - `Ritmica: Disable`
 
-### Volume control
-
-You can adjust the volume of the sounds by executing these commands in the Command Palette (Cmd+Shift+P):
-
-- `Ritmica: Volume Up`
-- `Ritmica: Volume Down`
-- `Ritmica: Set Volume`
-
-**NOTE:** The volume adjustments only apply to this extension's sounds. It does not affect the system volume.
-
 ### Music control
 
 You can play music by executing these commands in the Command Palette (Cmd+Shift+P) and give link to your playlist:
@@ -54,6 +44,12 @@ You can play music by executing these commands in the Command Palette (Cmd+Shift
 You can stop music by executing these commands in the Command Palette (Cmd+Shift+P):
 
 - `Ritmica: Stop music`
+
+## Building extension
+
+```npm install vsce```
+
+```vsce package```
 
 ## Credits
 
