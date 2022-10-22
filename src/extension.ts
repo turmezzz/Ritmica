@@ -43,9 +43,11 @@ function stopBackground() {
 }
 
 function stopMusic() {
-    music_started = false;
-    mpvPlayer.stop();
-    vscode.window.showInformationMessage('Music is stoped');
+    if (music_started) {
+        music_started = false;
+        mpvPlayer.stop();
+        vscode.window.showInformationMessage('Music is stoped');
+    }
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -64,18 +66,17 @@ export function activate(context: vscode.ExtensionContext) {
             isActive = true;
             vscode.window.showInformationMessage('Ritmica extension enabled');
         } else {
-            vscode.window.showWarningMessage('Ritmica extension is already enabled');
+            vscode.window.showInformationMessage('Ritmica extension is already enabled');
         }
     });
     vscode.commands.registerCommand('ritmica.disable', () => {
         if (isActive) {
-            context.globalState.update('ritmica', false);
             isActive = false;
             stopMusic();
             stopBackground();
             vscode.window.showInformationMessage('Ritmica extension disabled');
         } else {
-            vscode.window.showWarningMessage('Ritmica extension is already disabled');
+            vscode.window.showInformationMessage('Ritmica extension is already disabled');
         }
     });
 
@@ -94,9 +95,6 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('ritmica.stop', () => {
         if (isActive) {
             stopMusic();
-            // music_started = false;
-            // mpvPlayer.stop();
-            // vscode.window.showInformationMessage('Music is stoped');
         }
     });
 
@@ -106,6 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
+    disable()
 }
 
 /**
@@ -183,6 +182,7 @@ export class EditorListener {
 
     dispose() {
         this._disposable.dispose();
-        mpvPlayer.stop();
+        stopMusic()
+        mpvPlayer = null
     }
 }
