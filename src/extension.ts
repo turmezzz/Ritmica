@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-    disable()
+    mpvPlayer = null
 }
 
 /**
@@ -183,6 +183,5 @@ export class EditorListener {
     dispose() {
         this._disposable.dispose();
         stopMusic()
-        mpvPlayer = null
     }
 }
