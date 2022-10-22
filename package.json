@@ -37,19 +37,6 @@
                 "title": "Ritmica: Disable"
             },
             {
-                "command": "ritmica.volumeUp",
-                "title": "Ritmica: Volume Up"
-            },
-            {
-                "command": "ritmica.volumeDown",
-                "title": "Ritmica: Volume Down"
-            },
-            {
-                "command": "ritmica.setVolume",
-                "title": "Ritmica: Set Volume",
-                "args": "newVol"
-            },
-            {
                 "command": "ritmica.run",
                 "title": "Ritmica: Run music"
             },
