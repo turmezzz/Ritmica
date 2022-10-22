@@ -10,6 +10,7 @@ let start: number;
 let mpv = require('node-mpv');
 let mpvPlayer = new mpv({ "audio_only": true, "auto_restart": true });
 let music_started = false;
+let isActive: boolean;
 
 const stat_period_duration = 5 * 1000;
 const weighted_coef = 0.8;
@@ -53,12 +54,9 @@ export function activate(context: vscode.ExtensionContext) {
 
     // is the extension activated? yes by default.
     isActive = context.globalState.get('ritmica', true);
-    config.macVol = context.globalState.get('mac_volume', 1);
-    config.winVol = context.globalState.get('win_volume', 100);
-    config.linuxVol = context.globalState.get('linux_volume', 1);
 
     // to avoid multiple different instances
-    listener = listener || new EditorListener(player);
+    listener = listener || new EditorListener();
 
     vscode.commands.registerCommand('ritmica.enable', () => {
         if (!isActive) {
@@ -123,15 +121,10 @@ export class EditorListener {
     private _basePath: string = path.join(__dirname, '..');
     private _average_temp = 20;
 
-    constructor(private player: any) {
-        isNotArrowKey = false;
-
+    constructor() {
         vscode.workspace.onDidChangeTextDocument(this._keystrokeCallback, this, this._subscriptions);
         vscode.window.onDidChangeTextEditorSelection(this._arrowKeysCallback, this, this._subscriptions);
         this._disposable = vscode.Disposable.from(...this._subscriptions);
-        this.player = {
-            play: (filePath: string) => player.play(filePath, config)
-        };
     }
 
     map_temp_to_interval(temp: number) {
