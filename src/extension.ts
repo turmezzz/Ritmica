@@ -50,17 +50,6 @@ function stopMusic() {
     }
 }
 
-function disable() {
-    if (isActive) {
-        isActive = false;
-        stopMusic();
-        stopBackground();
-        vscode.window.showInformationMessage('Ritmica extension disabled');
-    } else {
-        vscode.window.showInformationMessage('Ritmica extension is already disabled');
-    }
-}
-
 export function activate(context: vscode.ExtensionContext) {
 
     log('Initializing "ritmica" extension');
@@ -82,9 +71,13 @@ export function activate(context: vscode.ExtensionContext) {
     });
     vscode.commands.registerCommand('ritmica.disable', () => {
         if (isActive) {
-            context.globalState.update('ritmica', false);    
+            isActive = false;
+            stopMusic();
+            stopBackground();
+            vscode.window.showInformationMessage('Ritmica extension disabled');
+        } else {
+            vscode.window.showInformationMessage('Ritmica extension is already disabled');
         }
-        disable()
     });
 
     vscode.commands.registerCommand('ritmica.run', async () => {
@@ -189,6 +182,7 @@ export class EditorListener {
 
     dispose() {
         this._disposable.dispose();
-        stopMusic();
+        stopMusic()
+        mpvPlayer = null
     }
 }
