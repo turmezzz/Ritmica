@@ -12,13 +12,9 @@ This helps you maintain concentration and get into flow state. Try it and become
 
 **Linux based**
 
-```npm install ```
-
 ```sudo apt-get install mpv youtube-dl```
 
 ### Mac
-
-```npm install ```
 
 ```brew  install mpv youtube-dl```
 
