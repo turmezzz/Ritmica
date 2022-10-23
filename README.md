@@ -39,7 +39,7 @@ Ritmica will start immediately when Visual Studio Code is started. However, you 
 
 ### Music control
 
-You can play music by executing these commands in the Command Palette (Cmd+Shift+P) and give link to your playlist:
+You can play music by executing these commands in the Command Palette (Cmd+Shift+P) and past link to your playlist:
 
 - `Ritmica: Run music`
 
